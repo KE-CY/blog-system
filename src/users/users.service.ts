@@ -9,7 +9,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   private users: Map<string, User> = new Map();
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -43,13 +43,20 @@ export class UsersService {
     return this.users.get(id);
   }
 
+  getPublicUserById(id: string): User {
+    const user = this.findById(id);
+    if (!user) throw new NotFoundException('User not found');
+    return this.sanitizeUser(user);
+  }
+
   update(id: string, updateUserDto: UpdateUserDto): User {
     const user = this.users.get(id);
     if (!user) {
       throw new NotFoundException('User not found');
     }
     const filteredDto = Object.fromEntries(
-      Object.entries(updateUserDto).filter(([_, value]) => value !== undefined)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      Object.entries(updateUserDto).filter(([_, value]) => value !== undefined),
     );
     Object.assign(user, {
       ...filteredDto,
