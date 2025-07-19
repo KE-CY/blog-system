@@ -9,7 +9,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   private users: Map<string, User> = new Map();
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -41,6 +41,12 @@ export class UsersService {
 
   findById(id: string): User | undefined {
     return this.users.get(id);
+  }
+
+  getPublicUserById(id: string): User {
+    const user = this.findById(id);
+    if (!user) throw new NotFoundException('User not found');
+    return this.sanitizeUser(user);
   }
 
   update(id: string, updateUserDto: UpdateUserDto): User {

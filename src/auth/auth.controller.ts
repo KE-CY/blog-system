@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService, LoginResponse } from './auth.service';
-import { UsersService } from '../users/users.service';
+import { UserService } from '../users/users.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { User } from '../users/entities/user.entity';
@@ -23,7 +23,7 @@ interface AuthenticatedRequest extends Request {
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private usersService: UsersService,
+    private usersService: UserService,
   ) {}
 
   @Post('register')

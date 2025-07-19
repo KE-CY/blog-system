@@ -7,7 +7,7 @@ import {
   Param,
   ForbiddenException,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UserService } from './users.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/user.decorator';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -16,7 +16,7 @@ import { User } from './entities/user.entity';
 @Controller('users')
 @UseGuards(JwtAuthGuard)
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UserService) {}
 
   @Get('profile')
   getProfile(@CurrentUser() user: User) {

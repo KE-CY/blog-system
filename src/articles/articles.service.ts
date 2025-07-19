@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Injectable,
   NotFoundException,
@@ -14,9 +12,15 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
 import { QueryArticleDto } from './dto/query-article.dto';
 import { v4 as uuidv4 } from 'uuid';
+import { CommentsService } from 'src/comments/comments.service';
+import { LikesService } from 'src/likes/likes.service';
 
 @Injectable()
 export class ArticlesService {
+  constructor(
+    private readonly commentsService: CommentsService,
+    private readonly likesService: LikesService,
+  ) {}
   private articles: Article[] = [];
   private editHistories: ArticleEditHistory[] = [];
 
@@ -191,25 +195,17 @@ export class ArticlesService {
   }
 
   private getLikesCount(articleId: string): number {
-    // 這裡應該與 likes service 整合，暫時返回假資料
-    return Math.floor(Math.random() * 50);
+    const count = this.likesService.getLikesCount(articleId);
+    return count;
   }
 
   private getCommentsCount(articleId: string): number {
-    // 這裡應該與 comments service 整合，暫時返回假資料
-    return Math.floor(Math.random() * 20);
+    const count = this.commentsService.getCommentsCount(articleId);
+    return count;
   }
 
   private getRecentComments(articleId: string) {
-    // 這裡應該與 comments service 整合，暫時返回假資料
-    return Array.from(
-      { length: Math.min(5, Math.floor(Math.random() * 8)) },
-      (_, i) => ({
-        id: uuidv4(),
-        content: `這是第 ${i + 1} 則留言內容`,
-        authorName: `User${i + 1}`,
-        createdAt: new Date(),
-      }),
-    );
+    const comments = this.commentsService.getRecentComments(articleId);
+    return comments;
   }
 }

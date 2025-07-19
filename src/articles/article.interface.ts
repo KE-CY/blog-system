@@ -1,3 +1,5 @@
+import { CommentWithAuthor } from '../comments/comment.interface';
+
 export interface Article {
   id: string;
   title: string;
@@ -28,10 +30,5 @@ export interface ArticleWithMetadata extends Article {
   };
   likesCount: number;
   commentsCount: number;
-  recentComments?: Array<{
-    id: string;
-    content: string;
-    authorName: string;
-    createdAt: Date;
-  }>;
+  recentComments?: Array<CommentWithAuthor>;
 }

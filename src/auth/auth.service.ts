@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '../users/users.service';
+import { UserService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
 
 export interface LoginResponse {
@@ -18,7 +18,7 @@ export interface LoginResponse {
 export class AuthService {
   private blackJWT: string[] = [];
   constructor(
-    private usersService: UsersService,
+    private usersService: UserService,
     private jwtService: JwtService,
   ) {}
 
