@@ -49,7 +49,8 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
     const filteredDto = Object.fromEntries(
-      Object.entries(updateUserDto).filter(([_, value]) => value !== undefined)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      Object.entries(updateUserDto).filter(([_, value]) => value !== undefined),
     );
     Object.assign(user, {
       ...filteredDto,
